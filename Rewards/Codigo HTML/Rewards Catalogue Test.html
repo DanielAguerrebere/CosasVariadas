@@ -1,0 +1,27 @@
+<br/>
+<h1> <label>Your Points: </label>
+    <label id="try" style="color: blue"></label>
+    <label id="Level1">Level: </label><label id="Level" style="color: blue"></label>
+</h1>
+<h1>
+    <label id="Active1">Active: </label> <label id="Active" style="color: blue"></label>
+    <label id="Used1">Used: </label> <label id="Used" style="color: blue"></label>
+    <button onclick="loadDoc()" type="button">Click</button>
+</h1>
+<script type="text/javascript">
+
+    var Url = "https://worksites.baxter.com/sites/GTCm/_api/lists/getbytitle('My Rewards')";
+
+    function loadDoc() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                alert(this.responseText);
+            }
+        };
+        xhttp.open("GET", Url, true);
+        xhttp.headers("accept", "application/json;odata=verbose");
+        xhttp.send();
+    }
+
+</script>

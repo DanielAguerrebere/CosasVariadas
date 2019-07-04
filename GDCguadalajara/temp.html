@@ -1,0 +1,17 @@
+$(function() {
+	$("input[type=text]").on("input", function() {
+  	var app = $("[name=app]").val();
+    var desc = $("[name=desc]").val();
+    var imglink = $("[name=imglink]").val();
+    var applink = $("[name=applink]").val();
+    var price = $("[name=price]").val();
+    $("#output").get(0).innerHTML = $('<div/>').text('<a class="fragment" href="' + applink + '" target="_blank"> \
+        <div> \
+          <img class="imgbor" src="' + imglink + '" alt="some description" /> \
+          <span class="styleraise">' + app + '</span> \
+          <span class="styleraise1">' + price + '</span> \
+          <div class="textpara">' + desc + '</div> \
+        </div> \
+      </a>').html();
+  });
+});

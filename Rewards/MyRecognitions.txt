@@ -1,0 +1,186 @@
+<br/>
+  <h1> <label>Your Points: </label>
+   <label id="try" style="color: blue"></label>
+   <label id="Level1">Level: </label><label id="Level" style="color: blue"></label>
+ </h1>
+ <h1>
+   <label id="Active1">Active: </label> <label id="Active" style="color: blue"></label>
+   <label id="Used1">Used: </label> <label id="Used" style="color: blue"></label>
+ </h1>
+<!-- Scripts -->
+   <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
+   <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/4.0/1/MicrosoftAjax.js"></script>
+   <script type="text/javascript" src="/_layouts/15/SP.RequestExecutor.js"></script>
+   <script type="text/javascript" src="_layouts/15/sp.runtime.js"></script>
+   <script type="text/javascript" src="_layouts/15/sp.js"></script>
+   <script src="lodash.js"></script>
+<!-- Scripts -->
+<script type="text/javascript">
+
+  //On SP page load
+      SP.SOD.executeFunc('sp.js', 'SP.ClientContext', OnSharePointLoadPage);
+
+      var CurrentPoints = 0;
+      var Used1 = 0;
+      var Used2 = 0;
+      var UsedPoints = 0;
+      var Counter = 0;
+      var Contador = 0;
+      var TotalPoints = 0;
+      var RPointsActive = 0;
+      var RPointsUsed = 0;
+      var RTotalPoints = 0;
+
+   function OnSharePointLoadPage(){
+     // alert('Thank you for participate in Our People Program');
+     UsedPoints1()
+     UsedPoints2()
+     RecognizerPoints()
+     CurrentUserPoints()
+     RecluitingActive()
+     RecluitingUsed()
+     setTimeout(Logic,5000);
+     setTimeout(PrintPoints,5000);
+   }
+
+   function UsedPoints1(){
+     getItemsFromView("My Recognitions", "UsedPoints1",
+        function(items){
+        for (var i = 0; i < items.get_count(); i++) {
+           ++Used1;
+        }
+        UsedPoints = Used1 + Used2;
+        TotalPoints = UsedPoints + CurrentPoints + RTotalPoints;
+     },
+     function(sender,args){
+             console.log(args.get_message())
+         }
+      );
+   }
+   function UsedPoints2(){
+        getItemsFromView("My Recognitions", "UsedPoints2",
+           function(items){
+           for (var i = 0; i < items.get_count(); i++) {
+              Used2 += 2;
+           }
+           UsedPoints = Used1 + Used2;
+           TotalPoints = UsedPoints + CurrentPoints + RTotalPoints;
+        },
+        function(sender,args){
+                console.log(args.get_message())
+            }
+         );
+   }
+   function RecognizerPoints(){
+        getItemsFromView("My Recognitions", "Recognizer",
+           function(items){
+           for (var i = 0; i < items.get_count(); i++) {
+              ++Contador;
+           }
+           CurrentPoints = Counter + Contador;
+           TotalPoints = UsedPoints + CurrentPoints + RTotalPoints;
+        },
+        function(sender,args){
+                console.log(args.get_message())
+            }
+         );
+   }
+   function CurrentUserPoints(){
+      getItemsFromView("My Recognitions", "CU3",
+         function(items){
+               for(var i = 0; i < items.get_count(); i++){
+                  Counter += 2;
+               }
+               CurrentPoints = Counter + Contador;
+               TotalPoints = UsedPoints + CurrentPoints + RTotalPoints;
+          },
+          function(sender,args){
+              console.log(args.get_message())
+          }
+      );
+   }
+   function RecluitingActive(){
+      getItemsFromView("My Recognitions", "RecruitingActive",
+         function(items){
+         for (var i = 0; i < items.get_count(); i++) {
+            RPointsActive += 4;
+         }
+         RTotalPoints = RPointsActive + RPointsUsed;
+         TotalPoints = UsedPoints + CurrentPoints + RTotalPoints;
+      },
+      function(sender,args){
+              console.log(args.get_message())
+          }
+       );
+    }
+   function RecluitingUsed(){
+          getItemsFromView("My Recognitions", "RecruitingUsed",
+             function(items){
+             for (var i = 0; i < items.get_count(); i++) {
+                RPointsUsed -= 4;
+             }
+             RTotalPoints = RPointsActive + RPointsUsed;
+             TotalPoints = UsedPoints + CurrentPoints + RTotalPoints;
+          },
+          function(sender,args){
+                  console.log(args.get_message())
+              }
+           );
+        }
+
+   function PrintPoints(){
+          getItemsFromView("My Recognitions", "UsedPoints2",
+          function(items){
+            document.getElementById("Active").innerHTML = (CurrentPoints + RPointsActive) + ' Points';
+            document.getElementById("Used").innerHTML = (UsedPoints + RPointsUsed) + ' Points';
+            document.getElementById("try").innerHTML = TotalPoints +  ' Points';
+          },
+          function(sender,args){
+            console.log(args.get_message())
+          }
+          );
+        }
+   function Logic(){
+          if (TotalPoints >= 30) {
+            document.getElementById("Level").innerHTML = 'Simplicity';   // Level 2
+          }
+          else if (TotalPoints >= 60) {
+            document.getElementById("Level").innerHTML = 'Collaboration';  //Level 3
+          }
+          else if (TotalPoints >= 90) {
+            document.getElementById("Level").innerHTML = 'Courage';   // Level 4
+          }
+          else {
+            document.getElementById("Level").innerHTML = 'Speed';   // Level 1
+          }
+        }
+
+   //getItemsFromView()
+      function getItemsFromView(listTitle, viewTitle,success,error){
+        var ctx = new SP.ClientContext();
+        var list = ctx.get_web().get_lists().getByTitle(listTitle);
+        var view = list.get_views().getByTitle(viewTitle);
+        ctx.load(view,'ViewQuery');
+        ctx.executeQueryAsync(
+            function(items) {
+                var viewQry = "<View><Query>" + view.get_viewQuery() + "</Query></View>";
+                getItems(listTitle,viewQry,success,error);
+
+            },
+            error);
+      }
+      function getItems(listTitle, queryText,success,error) {
+        var ctx = new SP.ClientContext();
+        var list = ctx.get_web().get_lists().getByTitle(listTitle);
+        var query = new SP.CamlQuery();
+        query.set_viewXml(queryText);
+        var items = list.getItems(query);
+        ctx.load(items);
+        ctx.executeQueryAsync(
+            function() {
+                success(items);
+            },
+            error
+        );
+      }
+</script>

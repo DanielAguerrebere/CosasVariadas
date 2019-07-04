@@ -1,0 +1,6 @@
+ena
+conf t
+int g0/#
+stand # pre
+stand # pri 105
+stand # ip #.#.#.#

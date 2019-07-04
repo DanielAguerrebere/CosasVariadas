@@ -1,0 +1,84 @@
+-----R1----
+ena
+conf t
+host R1
+no ip domain-lookup
+line console 0
+pass cisco
+exi
+line vty 0 4
+pass cisco
+exi
+logging synchronous
+int g0/0
+ip add 192.168.1.1 255.255.255.0
+int s0/0/0
+ip add 10.1.1.1 255.255.255.252
+int s0/0/1
+ip add 10.3.3.1 255.255.255.252
+exi
+router eigrp 10
+network 10.1.1.0 0.0.0.3
+network 192.168.1.0 0.0.0.255
+network 10.3.3.0 0.0.0.3
+exi
+router eigrp 10
+passive-interface g0/0
+
+-----R2----
+ena
+conf t
+host R2
+no ip domain-lookup
+line console 0
+pass cisco
+exi
+line vty 0 4
+pass cisco
+exi
+logging synchronous
+int g0/0
+ip add 192.168.2.1 255.255.255.0
+int s0/0/0
+ip add 10.1.1.2 255.255.255.252
+int s0/0/1
+ip add 10.2.2.2 255.255.255.252
+exi
+interface s0/0/0
+bandwidth 2000
+interface s0/0/1
+bandwidth 2000
+exi
+router eigrp 10
+passive-interface g0/0
+
+
+-----R3----
+ena
+conf t
+host R3
+no ip domain-lookup
+line console 0
+pass cisco
+exi
+line vty 0 4
+pass cisco
+exi
+logging synchronous
+int g0/0
+ip add 192.168.3.1 255.255.255.0
+int s0/0/0
+ip add 10.3.3.2 255.255.255.252
+int s0/0/1
+ip add 10.2.2.1 255.255.255.252
+exi
+interface s0/0/0
+bandwidth 2000
+interface s0/0/1
+bandwidth 2000
+exi
+router eigrp 10
+passive-interface g0/0
+
+
+

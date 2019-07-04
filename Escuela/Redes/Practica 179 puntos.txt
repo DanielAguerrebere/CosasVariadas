@@ -1,0 +1,27 @@
+ena
+conf t
+vtp mo ##
+vtp dom CCNA
+vtp pas cisco123
+
+S1 Y S2
+int ran f0/1-9
+sw acc vlan 10
+exi
+int ran f0/10-19
+sw acc vlan 20
+exi
+int ran f0/20-24, g0/1-2
+sw acc vlan 99
+sw tr na vlan 99
+
+S3 Y S4
+int ran f0/1-9
+sw acc vlan 10
+exi
+int ran f0/10-20
+sw acc vlan 20
+exi
+int ran f0/21-24, g0/1-2
+sw acc vlan 99
+sw tr na vlan 99

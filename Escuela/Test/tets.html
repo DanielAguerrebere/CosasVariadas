@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tets</title>
+</head>
+<body>
+
+<div id="tets">
+    <div id="del">
+        <div id="delCont">
+            wew
+        </div>
+
+    </div>
+    <div id="new">
+
+    </div>
+    <button id="kill" type="button">kill it</button>
+    <button id="create" type="button">new one</button>
+</div>
+
+<script>
+
+    var elem = document.getElementById("del");
+
+    document.getElementById("kill").addEventListener("click", function () {
+        console.log("wew");
+       elem.removeChild(document.getElementById("delCont"));
+    });
+    document.getElementById("create").addEventListener("click", function () {
+        var wew = document.getElementById("del");
+        console.log("uwu");
+        var div = document.createElement("div");
+        var nP = document.createElement("p");
+        var nPTect = document.createTextNode("laser veza");
+        nP.appendChild(nPTect);
+        div.append(nP);
+        console.log(nP);
+        wew.appendChild(div);
+        console.log(elem);
+    });
+
+</script>
+
+</body>
+</html>

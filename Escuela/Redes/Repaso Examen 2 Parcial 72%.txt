@@ -1,0 +1,8 @@
+bandwidth ####
+clock rate ####
+no auto-summary
+net #ip# #subnet#
+router eigrp #
+(config)#ip route #ip# #mask# int#
+red sta
+ip hello-interval eigrp 1 10

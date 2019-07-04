@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="Sprint.css">
+    <script src="Sprint.js"></script>
+</head>
+<body>
+<header>
+    <span class="Tittle">My Sprint</span>
+    <button id="btnNewTask" onclick="OpenModal()">Create new activity</button>
+</header>
+<section>
+    <div class="container">
+        <div class="encabezado">
+            <span class="Do">To Do</span>
+            <span class="Task">2 Task</span>
+            <div class="clear"></div>
+        </div>
+        <div class="encuadro">
+            <div class="ToDoItem">
+                <b class="TituloDo">Create a list of invoices</b>
+                <div class="CuerpoDO">
+                    A section is needed to display a list of active invoices and provide search capabilities
+                </div>
+                <button type="button" name="button" class="buttonProgress">In Progress</button>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="encabezado">
+            <span class="Do">In Progress</span>
+            <span class="Task">1 Task</span>
+        </div>
+        <div class="encuadro">
+            <div class="cuadroInProgress">
+                <b class="TituloProgress">Create a list of invoices</b>
+                <div class="CuerpoProgress">
+                    A section is needed to display a list of active invoices and provide search capabilities
+                </div>
+                <button type="button" name="button" class="buttonDone">Done</button>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="encabezado">
+            <span class="Do">Done</span>
+            <span class="Task">1 Task</span>
+        </div>
+        <div class="encuadro">
+            <div class="cuadroDone">
+                <b class="TituloDone">Create a list of invoices</b>
+                <div class="CuerpoDone">
+                    A section is needed to display a list of active invoices and provide search capabilities
+                </div>
+            </div>
+            <div class="conteinerButton">
+                <button type="button" name="button" class="buttonClear">Clear this list</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="id01" class="modal">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+        </div>
+
+    <form class="modal-content">
+        <div class="container">
+            <label><b>Student Number</b></label>
+            <input id="StuName" type="text" placeholder="Student Number" required>
+
+            <label><b>Tittle</b></label>
+            <input id="TaskTittle" type="text" placeholder="Enter task tittle" required>
+
+            <label><b>Description</b></label>
+            <input id="TaskDesc" type="text" placeholder="Enter task description" required>
+
+            <button class="buttonModal" type="submit">Create Task</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

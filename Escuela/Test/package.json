@@ -1,0 +1,15 @@
+{
+  "name": "tests.json",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "main",
+  "dependencies": {
+    "server": "^1.0.18"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ioMerengues",
+  "license": "ISC"
+}

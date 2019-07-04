@@ -1,0 +1,60 @@
+<br/>
+<h1> <label>Your Points: </label>
+    <label id="try" style="color: blue"></label>
+    <label id="Level1">Level: </label><label id="Level" style="color: blue"></label>
+</h1>
+<h1>
+    <label id="Active1">Active: </label> <label id="Active" style="color: blue"></label>
+    <label id="Used1">Used: </label> <label id="Used" style="color: blue"></label>
+    <button onclick="retrieveListItems()" type="button">Click</button>
+</h1>
+<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
+   <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/4.0/1/MicrosoftAjax.js"></script>
+   <script type="text/javascript" src="/_layouts/15/SP.RequestExecutor.js"></script>
+   <script type="text/javascript" src="_layouts/15/sp.runtime.js"></script>
+   <script type="text/javascript" src="_layouts/15/sp.js"></script>
+<script type="text/javascript">
+
+    var Url = "https://worksites.baxter.com/sites/GTCm/rewards/_api/web/lists/GetByTitle('My Recognitions')/items";
+
+    function retrieveListItems() {
+        var clientContext = new SP.ClientContext.get_current();
+        var oList = clientContext.get_web().get_lists().getByTitle('My Recognitions');
+
+        var camlQuery = new SP.CamlQuery();
+        camlQuery.set_viewXml(
+            '<View><Query><Where><Geq><FieldRef Name=\'ID\'/>' +
+            '<Value Type=\'Number\'>1</Value></Geq></Where></Query>' +
+            '<RowLimit>10</RowLimit></View>'
+        );
+        this.collListItem = oList.getItems(camlQuery);
+
+        clientContext.load(collListItem);
+        clientContext.executeQueryAsync(
+            Function.createDelegate(this, this.onQuerySucceeded),
+            Function.createDelegate(this, this.onQueryFailed)
+        );
+    }
+
+    function onQuerySucceeded(sender, args) {
+        var listItemInfo = '';
+        var listItemEnumerator = collListItem.getEnumerator();
+
+        while (listItemEnumerator.moveNext()) {
+            var oListItem = listItemEnumerator.get_current();
+            listItemInfo += '\nID: ' + oListItem.get_id() +
+                '\nTitle: ' + oListItem.get_item('Title') +
+                '\nBody: ' + oListItem.get_item('Body');
+        }
+
+        alert(listItemInfo.toString());
+    }
+
+    function onQueryFailed(sender, args) {
+        alert('Request failed. ' + args.get_message() +
+            '\n' + args.get_stackTrace());
+    }
+
+    SP.SOD.executeFunc('sp.js', 'SP.ClientContext', retrieveListItems);
+
+</script>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style type= "text/css">
+      div{
+        display: flex;
+      }
+      #calculadora{
+        flex-direction: column;
+        flex-wrap: wrap;
+        height: 320px;
+        width: 232px;
+        display: block;
+      }
+      #calculator_display{
+        line-height: 80px;
+        background-color: rgb(76,76,76);
+        flex-direction: row-reverse;
+        align-items:flex-end;
+        color: white;
+        font-size: 30px;
+      }
+      .funciones{
+        background-color: rgb(224,224,224);
+        border-style: solid;
+        border-color: rgb(142,142,142);
+        border-width: 1px;
+        flex-basis: 25%;
+        line-height: 48px;
+      }
+      .clear{
+        background-color: rgb(224,224,224);
+        border-style: solid;
+        border-color: rgb(142,142,142);
+        border-width: 1px;
+        flex-basis: 25%;
+        line-height: 48px;
+      }
+      .numeros{
+        background-color: rgb(224,224,224);
+        border-style: solid;
+        border-color: rgb(142,142,142);
+        border-width: 1px;
+        flex-basis: 25%;
+        line-height: 48px;
+      }
+      .operaciones{
+        background-color: rgb(246,145,58);
+        border-style: solid;
+        border-color: rgb(142,142,142);
+        border-width: 1px;
+        flex-basis: 25%;
+        line-height: 48px;
+      }
+      .equals{
+        background-color: rgb(246,145,58);
+        border-style: solid;
+        border-color: rgb(142,142,142);
+        border-width: 1px;
+        flex-basis: 25%;
+        line-height: 48px;
+      }
+      #cero{
+        background-color: rgb(224,224,224);
+        border-style: solid;
+        border-color: rgb(142,142,142);
+        border-width: 1px;
+        flex-basis: 50%;
+        line-height: 48px;
+      }
+      #viewer{
+        line-height: 80px;
+        text-align: right;
+        background-color: rgb(76,76,76);
+        color: white;
+        font-size: 22px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="calculadora">
+      <div id="calculator_display">
+         <div id="viewer" class="viewer">0</div>
+      </div>
+      <div>
+        <button onclick="resetDisplay(value)" class="clear" value="0">AC</button>
+        <button onclick="operacion(id)" id="negative" class="funciones">+/-</button>
+        <button onclick="operacion(id)" id="mod" class="funciones">%</button>
+        <button onclick="operacion(id)" id="division" class="operaciones">÷</button>
+      </div>
+      <div>
+        <button onclick="setValue(value)" class="numeros" value="7">7</button>
+        <button onclick="setValue(value)" class="numeros" value="8">8</button>
+        <button onclick="setValue(value)" class="numeros" value="9">9</button>
+        <button onclick="operacion(id)" id="multiply" class="operaciones">X</button>
+      </div>
+      <div>
+        <button onclick="setValue(value)" class="numeros" value="4">4</button>
+        <button onclick="setValue(value)" class="numeros" value="5">5</button>
+        <button onclick="setValue(value)" class="numeros" value="6">6</button>
+        <button onclick="operacion(id)" id="minus" class="operaciones">-</button>
+      </div>
+      <div>
+        <button onclick="setValue(value)" onclick="setValue(value)" class="numeros" value="1">1</button>
+        <button onclick="setValue(value)" class="numeros" value="2">2</button>
+        <button onclick="setValue(value)" class="numeros" value="3">3</button>
+        <button onclick="operacion(id)" id="plus" class="operaciones">+</button>
+      </div>
+      <div>
+        <button onclick="setValue(value)" id="cero" value="0">0</button>
+        <button onclick="setValue(value)" class="numeros" value=".">.</button>
+        <button onclick="result()" id="equals" class="equals">=</button>
+      </div>
+    </div>
+    <script type="text/javascript">
+      var el = function(element) {
+      if (element.charAt(0) === "#") { // If passed an ID...
+        return document.querySelector(element); // ... returns single element
+      }
+      return document.querySelectorAll(element); // Otherwise, returns a nodelist
+      };
+
+      var viewer = document.getElementById("viewer");
+      var nums = document.getElementsByClassName("numeros");
+      var operaciones = document.getElementsByClassName("operaciones");
+      var equals = document.getElementById("equals");
+      var firstNumber = "";
+      var secondNumber = "";
+      var resultNum = "";
+      var operator = "";
+
+      function setValue(event) {
+        console.log(event);
+        viewer.innerHTML += event;
+        firstNumber = parseFloat(viewer.innerHTML);
+        console.log(firstNumber);
+      }
+      function passNum(){
+        secondNumber = firstNumber;
+        firstNumber = "";
+        clearDisplay();
+      }
+      function result(){
+        clearDisplay();
+        switch (operator) {
+          case "plus":
+            resultNum = firstNumber + secondNumber;
+            viewer.innerHTML = resultNum;
+            console.log(resultNum);
+            break;
+          case "multiply":
+            resultNum = firstNumber * secondNumber;
+            viewer.innerHTML = resultNum;
+            console.log(resultNum);
+            break;
+          case "division":
+            resultNum = firstNumber / secondNumber;
+            viewer.innerHTML = resultNum;
+            console.log(resultNum);
+            break;
+          case "minus":
+            resultNum = firstNumber - secondNumber;
+            viewer.innerHTML = resultNum;
+            console.log(resultNum);
+            break;
+          case "mod":
+            resultNum = firstNumber % secondNumber;
+            viewer.innerHTML = resultNum;
+            console.log(resultNum);
+            break;
+          case "negative":
+            resultNum = firstNumber * (-1);
+            viewer.innerHTML = resultNum;
+            console.log(resultNum);
+            break;
+          default:
+
+        }
+      }
+      function operacion(event){
+        console.log(event);
+        switch (event) {
+          case "multiply":
+            passNum();
+            operator = "multiply";
+            break;
+          case "plus":
+            passNum();
+            operator = "plus";
+            break;
+          case "division":
+            passNum();
+            operator = "division";
+            break;
+          case "mod":
+            passNum();
+            operator = "mod";
+            break;
+          case "negative":
+            operator = "negative";
+            break;
+          case "minus":
+            passNum();
+            operator = "minus";
+            break;
+          default:
+        }
+      }
+      function clearDisplay(event){
+        console.log("clear");
+        viewer.innerHTML = 0;
+      }
+      function resetDisplay(event){
+        console.log("reset");
+        viewer.innerHTML = event;
+        firstNumber = 0;
+        secondNumber = 0;
+        console.log("first " + firstNumber);
+        console.log("second " + secondNumber);
+      }
+    </script>
+  </body>
+</html>
